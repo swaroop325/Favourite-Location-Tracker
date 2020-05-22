@@ -15,15 +15,13 @@ class login extends Component {
         this.state = {
             email: '',
             password: '',
-            errors: [],
             loading: false
         };
     }
-    clearState(){
+    clearState() {
         this.setState({
             email: '',
             password: '',
-            errors: [],
             loading: false
         });
     }
@@ -42,10 +40,12 @@ class login extends Component {
         };
         firebase
             .auth()
-            .signInWithEmailAndPassword(userData.email,userData.password)
+            .signInWithEmailAndPassword(userData.email, userData.password)
             .then(res => {
                 if (res.user) {
                     alert("User Logged in Successfully");
+                    localStorage.setItem('loggedIn', true);
+                    this.props.history.push('/');
                     this.clearState();
                 }
             })
@@ -58,7 +58,7 @@ class login extends Component {
     };
 
     render() {
-        const { errors, loading } = this.state;
+        const { loading } = this.state;
         return (
             <div className='loginForm'>
                 <Container component="main" maxWidth="xs">
@@ -66,7 +66,7 @@ class login extends Component {
                     <div>
                         <Typography component="h1" variant="h5">
                             Login
-					</Typography>
+					    </Typography>
                         <form noValidate>
                             <TextField
                                 variant="outlined"
@@ -78,8 +78,7 @@ class login extends Component {
                                 name="email"
                                 autoComplete="email"
                                 autoFocus
-                                helperText={errors.email}
-                                error={errors.email ? true : false}
+                                helperText="Enter a valid email"
                                 onChange={this.handleChange}
                             />
                             <TextField
@@ -92,8 +91,6 @@ class login extends Component {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
-                                helperText={errors.password}
-                                error={errors.password ? true : false}
                                 onChange={this.handleChange}
                             />
                             <Button
@@ -114,11 +111,6 @@ class login extends Component {
                                     </Link>
                                 </Grid>
                             </Grid>
-                            {errors.general && (
-                                <Typography variant="body2">
-                                    {errors.general}
-                                </Typography>
-                            )}
                         </form>
                     </div>
                 </Container></div>

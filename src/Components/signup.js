@@ -15,7 +15,6 @@ class signup extends Component {
         this.state = {
             email: '',
             password: '',
-            errors: [],
             loading: false
         };
     }
@@ -31,7 +30,6 @@ class signup extends Component {
         this.setState({
             email: '',
             password: '',
-            errors: [],
             loading: false
         });
     }
@@ -60,7 +58,7 @@ class signup extends Component {
     };
 
     render() {
-        const { errors, loading } = this.state;
+        const { loading } = this.state;
         return (
             <div className='loginForm'>
                 <Container component="main" maxWidth="xs">
@@ -81,8 +79,6 @@ class signup extends Component {
                                 autoComplete="email"
                                 autoFocus
                                 value={this.state.email}
-                                helperText={errors.email}
-                                error={errors.email ? true : false}
                                 onChange={this.handleChange}
                             />
                             <TextField
@@ -96,8 +92,6 @@ class signup extends Component {
                                 id="password"
                                 value={this.state.password}
                                 autoComplete="current-password"
-                                helperText={errors.password}
-                                error={errors.password ? true : false}
                                 onChange={this.handleChange}
                             />
                             <Button
@@ -113,16 +107,11 @@ class signup extends Component {
                             </Button>
                             <Grid container>
                                 <Grid item>
-                                    <Link href="/" variant="body2">
+                                    <Link href="/login" variant="body2">
                                         {"Already have an account? Sign In"}
                                     </Link>
                                 </Grid>
                             </Grid>
-                            {errors.general && (
-                                <Typography variant="body2">
-                                    {errors.general}
-                                </Typography>
-                            )}
                         </form>
                     </div>
                 </Container></div>
