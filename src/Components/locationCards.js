@@ -93,7 +93,9 @@ class locationCards extends Component {
             lat: '',
             long: '',
             locationId: '',
+            selectedLocation: [],
             errors: [],
+            position: {},
             open: false,
             uiLoading: true,
             viewOpen: false
@@ -140,9 +142,22 @@ class locationCards extends Component {
         });
     }
     handleViewOpen(data) {
+        var location = [
+            {
+                name: data.location.title,
+                position: {
+                    lat: data.location.lat,
+                    lng: data.location.lng
+                }
+            }
+        ];
+        var position = {
+            lat: data.location.lat,
+            lng: data.location.lng
+        }
         this.setState({
-            title: data.location.title,
-            body: data.location.body,
+            selectedLocation: location,
+            position: position,
             viewOpen: true
         });
     }
@@ -292,7 +307,7 @@ class locationCards extends Component {
                         ))}
                     </Grid>
                 </main>
-                <div className="maps" style={{ float: 'left' }}><Maps location={this.state.locations} /></div>
+                <div className="maps" style={{ float: 'left' }}>{this.state.viewOpen ? <Maps selectLocation={this.state.selectedLocation} location={this.state.locations} position={this.state.position}/> : <Maps location={this.state.locations} />}</div>
             </div>
             );
         }

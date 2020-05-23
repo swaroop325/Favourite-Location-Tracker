@@ -20,7 +20,7 @@ class home extends Component {
         };
 	}
 
-	componentWillMount = () => {
+	componentDidMount = () => {
         if(localStorage.getItem('loggedIn') != "true"){
           this.logoutHandler();
         }
