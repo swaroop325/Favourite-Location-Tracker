@@ -16,7 +16,9 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CardContent from '@material-ui/core/CardContent';
-import Maps from  './locateMaps';
+import LocationSave from './locateMaps';
+import Maps from './mapContainer'
+import Firebase from 'firebase';
 
 const styles = (theme) => ({
     content: {
@@ -60,7 +62,7 @@ const styles = (theme) => ({
     pos: {
         marginBottom: 12
     },
-    
+
     dialogeStyle: {
         maxWidth: '50%'
     },
@@ -83,27 +85,23 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 class locationCards extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
-            locations: [{
-                'title':'a',
-                'body': 'dsal;dajd'
-            }, {
-                'title':'a',
-                'body': 'dsal;dajd'
-
-            }],
+            locations: [],
+            saveData: [],
             title: '',
             body: '',
+            lat: '',
+            long: '',
             locationId: '',
             errors: [],
             open: false,
-            uiLoading: false,
-            buttonType: '',
+            uiLoading: true,
             viewOpen: false
         };
 
+        this.handleLocation = this.handleLocation.bind(this);
         this.handleViewOpen = this.handleViewOpen.bind(this);
+
     }
 
     handleChange = (event) => {
@@ -112,10 +110,35 @@ class locationCards extends Component {
         });
     };
 
-    componentWillMount = () => {
-
+    componentDidMount = () => {
+        this.fetchDetail();
     };
 
+    fetchDetail = () => {
+        this.setState({
+            uiLoading: true
+        });
+        let ref = Firebase.database().ref('location/' + localStorage.getItem('uid'));
+        let arrayLocation = [];
+        ref.on('value', snapshot => {
+          const state = snapshot.val();
+          snapshot.forEach(function (childSnapshot) {
+            var childData = childSnapshot.val();
+            arrayLocation.push(childData[0])
+           });
+          this.setState({
+              locations: arrayLocation,
+              uiLoading: false
+          });
+        });
+    }
+
+    handleLocation(latitude, longitude) {
+        this.setState({
+            lat: latitude,
+            long: longitude
+        });
+    }
     handleViewOpen(data) {
         this.setState({
             title: data.location.title,
@@ -125,7 +148,6 @@ class locationCards extends Component {
     }
 
     render() {
-
         const { classes } = this.props;
         const { open, errors, viewOpen } = this.state;
 
@@ -141,12 +163,19 @@ class locationCards extends Component {
 
         const handleSubmit = (event) => {
             event.preventDefault();
-            const userLocation = {
+            const uid = localStorage.getItem('uid')
+            let userLocation = [{
                 title: this.state.title,
-                body: this.state.body
-            };
-
-
+                body: this.state.body,
+                lat: this.state.lat,
+                lng: this.state.long
+            }];
+            Firebase.database().ref('location/' + uid).push(userLocation);
+            alert('Location Saved Successfully');
+            this.setState({
+                open: false
+            });
+            this.fetchDetail();
         };
 
 
@@ -158,23 +187,23 @@ class locationCards extends Component {
             return (
                 <main className={classes.content}>
                     <div className={classes.toolbar} />
-                    {this.state.uiLoading && <CircularProgress size={150}/>}
+                    {this.state.uiLoading && <CircularProgress size={150} />}
                 </main>
             );
         } else {
             return (<div>
-                <main className={classes.content} style={{maxWidth:'50%',display:'inline-block', float:'left'}}>
+                <main className={classes.content} style={{ maxWidth: '50%', display: 'inline-block', float: 'left' }}>
                     <div className={classes.toolbar} />
-
-                    <IconButton style={{zIndex:'9999999999'}}
-                        className={classes.floatingButton}
-                        color="primary"
-                        aria-label="Add Location"
-                        onClick={handleClickOpen}
-                    >
-                        <AddCircleIcon style={{ fontSize: 100 }} />
-                    </IconButton>
-                    <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+                    <div>{!this.state.open ?
+                        <IconButton style={{ zIndex: '9999999999' }}
+                            className={classes.floatingButton}
+                            color="primary"
+                            aria-label="Add Location"
+                            onClick={handleClickOpen}
+                        >
+                            <AddCircleIcon style={{ fontSize: 100 }} />
+                        </IconButton> : <div></div>}</div>
+                    <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition} >
                         <AppBar style={{ position: 'relative' }}>
                             <Toolbar>
                                 <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
@@ -195,14 +224,14 @@ class locationCards extends Component {
                         </AppBar>
 
                         <form className={classes.form} noValidate>
-                            <Grid container spacing={2}>
+                            <Grid container spacing={2} style={{ marginBottom: '20px' }}>
                                 <Grid item xs={12}>
                                     <TextField
                                         variant="outlined"
                                         required
                                         fullWidth
                                         id="locationTitle"
-                                        label="Location Title"
+                                        label="Location Name"
                                         name="title"
                                         autoComplete="locationTitle"
                                         helperText={errors.title}
@@ -211,22 +240,45 @@ class locationCards extends Component {
                                         onChange={this.handleChange}
                                     />
                                 </Grid>
-                            <Maps/>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        id="address"
+                                        label="Address"
+                                        name="body"
+                                        autoComplete="address"
+                                        helperText={errors.body}
+                                        error={errors.body ? true : false}
+                                        onChange={this.handleChange}
+                                        value={this.state.body}
+                                    />
+                                </Grid>
                             </Grid>
+                            <div className="test">
+                            <LocationSave handleLocation={this.handleLocation} />
+                            </div>
                         </form>
                     </Dialog>
                     <Grid container spacing={2}>
                         {this.state.locations.map((location) => (
                             <Grid item xs={12} sm={6}>
-                                <Card className={classes.root} variant="outlined" style={{minWidth:'100%'}}>
+                                <Card className={classes.root} variant="outlined" style={{ minWidth: '100%' }}>
                                     <CardContent>
-                                        <Typography variant="h5" component="h2">
-                                            Address:{location.title}
+                                        <Typography variant="h6" component="h2">
+                                            {location.title}
                                         </Typography>
                                         <Typography className={classes.pos} color="textSecondary">
                                         </Typography>
                                         <Typography variant="body2" component="p">
-                                            Lat and long:{`${location.body.substring(0, 65)}`}
+                                            Address:{`${location.body}`}
+                                        </Typography>
+                                        <Typography variant="body2" component="p">
+                                           Lat: {location.lat}
+                                        </Typography>
+                                        <Typography variant="body2" component="p">
+                                           Long: {location.lng}
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
@@ -240,8 +292,8 @@ class locationCards extends Component {
                         ))}
                     </Grid>
                 </main>
-                <div className="maps" style={{display:'inline'}}><Maps/></div>
-                </div>
+                <div className="maps" style={{ float: 'left' }}><Maps location={this.state.locations} /></div>
+            </div>
             );
         }
     }

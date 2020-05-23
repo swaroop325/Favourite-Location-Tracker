@@ -39,3 +39,7 @@
 .loginForm{
   padding: 5% 5%;
 }
+
+.hidden{
+  display: none;
+}

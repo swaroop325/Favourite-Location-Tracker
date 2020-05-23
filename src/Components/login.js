@@ -45,6 +45,7 @@ class login extends Component {
                 if (res.user) {
                     alert("User Logged in Successfully");
                     localStorage.setItem('loggedIn', true);
+                    localStorage.setItem('uid',res.user.uid)
                     this.props.history.push('/');
                     this.clearState();
                 }
