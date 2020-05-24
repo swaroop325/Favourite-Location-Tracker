@@ -100,10 +100,8 @@ class locationCards extends Component {
             uiLoading: true,
             viewOpen: false
         };
-
         this.handleLocation = this.handleLocation.bind(this);
         this.handleViewOpen = this.handleViewOpen.bind(this);
-
     }
 
     handleChange = (event) => {
@@ -123,15 +121,14 @@ class locationCards extends Component {
         let ref = Firebase.database().ref('location/' + localStorage.getItem('uid'));
         let arrayLocation = [];
         ref.on('value', snapshot => {
-          const state = snapshot.val();
-          snapshot.forEach(function (childSnapshot) {
-            var childData = childSnapshot.val();
-            arrayLocation.push(childData[0])
-           });
-          this.setState({
-              locations: arrayLocation,
-              uiLoading: false
-          });
+            snapshot.forEach(function (childSnapshot) {
+                var childData = childSnapshot.val();
+                arrayLocation.push(childData[0])
+            });
+            this.setState({
+                locations: arrayLocation,
+                uiLoading: false
+            });
         });
     }
 
@@ -141,6 +138,7 @@ class locationCards extends Component {
             long: longitude
         });
     }
+
     handleViewOpen(data) {
         var location = [
             {
@@ -164,7 +162,7 @@ class locationCards extends Component {
 
     render() {
         const { classes } = this.props;
-        const { open, errors, viewOpen } = this.state;
+        const { open } = this.state;
 
         const handleClickOpen = () => {
             this.setState({
@@ -214,8 +212,7 @@ class locationCards extends Component {
                             className={classes.floatingButton}
                             color="primary"
                             aria-label="Add Location"
-                            onClick={handleClickOpen}
-                        >
+                            onClick={handleClickOpen}>
                             <AddCircleIcon style={{ fontSize: 100 }} />
                         </IconButton> : <div></div>}</div>
                     <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition} >
@@ -231,13 +228,11 @@ class locationCards extends Component {
                                     autoFocus
                                     color="inherit"
                                     onClick={handleSubmit}
-                                    className={classes.submitButton}
-                                >
+                                    className={classes.submitButton}>
                                     SAVE
 								</Button>
                             </Toolbar>
                         </AppBar>
-
                         <form className={classes.form} noValidate>
                             <Grid container spacing={2} style={{ marginBottom: '20px' }}>
                                 <Grid item xs={12}>
@@ -249,11 +244,8 @@ class locationCards extends Component {
                                         label="Location Name"
                                         name="title"
                                         autoComplete="locationTitle"
-                                        helperText={errors.title}
                                         value={this.state.title}
-                                        error={errors.title ? true : false}
-                                        onChange={this.handleChange}
-                                    />
+                                        onChange={this.handleChange} />
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
@@ -264,15 +256,12 @@ class locationCards extends Component {
                                         label="Address"
                                         name="body"
                                         autoComplete="address"
-                                        helperText={errors.body}
-                                        error={errors.body ? true : false}
                                         onChange={this.handleChange}
-                                        value={this.state.body}
-                                    />
+                                        value={this.state.body} />
                                 </Grid>
                             </Grid>
                             <div className="test">
-                            <LocationSave handleLocation={this.handleLocation} />
+                                <LocationSave handleLocation={this.handleLocation} />
                             </div>
                         </form>
                     </Dialog>
@@ -290,10 +279,10 @@ class locationCards extends Component {
                                             Address:{`${location.body}`}
                                         </Typography>
                                         <Typography variant="body2" component="p">
-                                           Lat: {location.lat}
+                                            Lat: {location.lat}
                                         </Typography>
                                         <Typography variant="body2" component="p">
-                                           Long: {location.lng}
+                                            Long: {location.lng}
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
@@ -307,8 +296,9 @@ class locationCards extends Component {
                         ))}
                     </Grid>
                 </main>
-                <div className="maps" style={{ float: 'left' }}>{this.state.viewOpen ? <Maps selectLocation={this.state.selectedLocation} location={this.state.locations} position={this.state.position}/> : <Maps location={this.state.locations} />}</div>
-            </div>
+                {!this.state.open &&
+                    <div className="maps" style={{ float: 'left' }}>{this.state.viewOpen ? <Maps selectLocation={this.state.selectedLocation} location={this.state.locations} position={this.state.position} /> : <Maps location={this.state.locations} />}</div>
+                }</div>
             );
         }
     }

@@ -18,6 +18,7 @@ class login extends Component {
             loading: false
         };
     }
+
     clearState() {
         this.setState({
             email: '',
@@ -25,6 +26,7 @@ class login extends Component {
             loading: false
         });
     }
+
     handleChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value
@@ -45,7 +47,7 @@ class login extends Component {
                 if (res.user) {
                     alert("User Logged in Successfully");
                     localStorage.setItem('loggedIn', true);
-                    localStorage.setItem('uid',res.user.uid)
+                    localStorage.setItem('uid', res.user.uid)
                     this.props.history.push('/');
                     this.clearState();
                 }
@@ -80,8 +82,7 @@ class login extends Component {
                                 autoComplete="email"
                                 autoFocus
                                 helperText="Enter a valid email"
-                                onChange={this.handleChange}
-                            />
+                                onChange={this.handleChange} />
                             <TextField
                                 variant="outlined"
                                 margin="normal"
@@ -92,16 +93,14 @@ class login extends Component {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
-                                onChange={this.handleChange}
-                            />
+                                onChange={this.handleChange} />
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 color="primary"
                                 onClick={this.handleSubmit}
-                                disabled={loading || !this.state.email || !this.state.password}
-                            >
+                                disabled={loading || !this.state.email || !this.state.password} >
                                 Sign In
 							{loading && <CircularProgress size={30} />}
                             </Button>

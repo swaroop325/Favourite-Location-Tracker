@@ -11,7 +11,6 @@ import * as firebase from 'firebase'
 class signup extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             email: '',
             password: '',
@@ -19,20 +18,20 @@ class signup extends Component {
         };
     }
 
-
-
     handleChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value
         });
     };
-    clearState(){
+
+    clearState() {
         this.setState({
             email: '',
             password: '',
             loading: false
         });
     }
+
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({ loading: true });
@@ -42,7 +41,7 @@ class signup extends Component {
         };
         firebase
             .auth()
-            .createUserWithEmailAndPassword(userData.email,userData.password)
+            .createUserWithEmailAndPassword(userData.email, userData.password)
             .then(res => {
                 if (res.user) {
                     alert("User Created");
@@ -54,7 +53,6 @@ class signup extends Component {
                 alert(errorMsg);
                 this.clearState();
             });
-
     };
 
     render() {
@@ -79,8 +77,7 @@ class signup extends Component {
                                 autoComplete="email"
                                 autoFocus
                                 value={this.state.email}
-                                onChange={this.handleChange}
-                            />
+                                onChange={this.handleChange} />
                             <TextField
                                 variant="outlined"
                                 margin="normal"
@@ -92,16 +89,14 @@ class signup extends Component {
                                 id="password"
                                 value={this.state.password}
                                 autoComplete="current-password"
-                                onChange={this.handleChange}
-                            />
+                                onChange={this.handleChange} />
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 color="primary"
                                 onClick={this.handleSubmit}
-                                disabled={loading || !this.state.email || !this.state.password}
-                            >
+                                disabled={loading || !this.state.email || !this.state.password}>
                                 Sign Up
 							{loading && <CircularProgress size={30} />}
                             </Button>
