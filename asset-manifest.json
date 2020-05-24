@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/Favourite-Location-Tracker/static/css/main.46fd5e9e.chunk.css",
-    "main.js": "/Favourite-Location-Tracker/static/js/main.75730f5a.chunk.js",
-    "main.js.map": "/Favourite-Location-Tracker/static/js/main.75730f5a.chunk.js.map",
+    "main.js": "/Favourite-Location-Tracker/static/js/main.a0f0f97e.chunk.js",
+    "main.js.map": "/Favourite-Location-Tracker/static/js/main.a0f0f97e.chunk.js.map",
     "runtime-main.js": "/Favourite-Location-Tracker/static/js/runtime-main.a320f5af.js",
     "runtime-main.js.map": "/Favourite-Location-Tracker/static/js/runtime-main.a320f5af.js.map",
     "static/js/2.6d112058.chunk.js": "/Favourite-Location-Tracker/static/js/2.6d112058.chunk.js",
     "static/js/2.6d112058.chunk.js.map": "/Favourite-Location-Tracker/static/js/2.6d112058.chunk.js.map",
     "index.html": "/Favourite-Location-Tracker/index.html",
-    "precache-manifest.9c2b3b80b219fe993e5cb92d3e8897a2.js": "/Favourite-Location-Tracker/precache-manifest.9c2b3b80b219fe993e5cb92d3e8897a2.js",
+    "precache-manifest.d0a6315b39db17c8afe0aca8eab4c181.js": "/Favourite-Location-Tracker/precache-manifest.d0a6315b39db17c8afe0aca8eab4c181.js",
     "service-worker.js": "/Favourite-Location-Tracker/service-worker.js",
     "static/css/main.46fd5e9e.chunk.css.map": "/Favourite-Location-Tracker/static/css/main.46fd5e9e.chunk.css.map",
     "static/js/2.6d112058.chunk.js.LICENSE.txt": "/Favourite-Location-Tracker/static/js/2.6d112058.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.a320f5af.js",
     "static/js/2.6d112058.chunk.js",
     "static/css/main.46fd5e9e.chunk.css",
-    "static/js/main.75730f5a.chunk.js"
+    "static/js/main.a0f0f97e.chunk.js"
   ]
 }
