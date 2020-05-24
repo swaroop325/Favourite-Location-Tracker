@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f0d4a9cd034ea35fbe9e8f42ac640ed5",
+    "revision": "e57e6e4d12ffb1b2cbaf3c7344b3be59",
     "url": "/Favourite-Location-Tracker/index.html"
   },
   {
-    "revision": "5279483ce78f678ed70f",
+    "revision": "bd3f4d33faa460318b84",
     "url": "/Favourite-Location-Tracker/static/css/main.46fd5e9e.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Favourite-Location-Tracker/static/js/2.6d112058.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "5279483ce78f678ed70f",
-    "url": "/Favourite-Location-Tracker/static/js/main.a0f0f97e.chunk.js"
+    "revision": "bd3f4d33faa460318b84",
+    "url": "/Favourite-Location-Tracker/static/js/main.c8507ca8.chunk.js"
   },
   {
     "revision": "2c1ce04e8589b2984cb6",
